@@ -4,6 +4,7 @@ import xc.crabapple.sensitive.common.configuration.MM;
 import xc.crabapple.sensitive.common.domain.dao.PropertiesDao;
 import org.springframework.stereotype.Service;
 import xc.crabapple.core.collection.StringUtil;
+import xc.crabapple.core.file.properties.PropertiesUtil;
 import xc.crabapple.core.log.LogUtil;
 import xc.crabapple.core.regex.RegexUtil;
 
@@ -26,11 +27,10 @@ public class PropertiesServiceImpl {
     public String getString(String key, String defaultValue) {
         try {
             PropertiesDao propertiesDao = getSysProperties(key);
-            if (propertiesDao == null) {
-                return defaultValue;
+            if (propertiesDao == null || StringUtil.isBlank(propertiesDao.getValue())) {
+                return PropertiesUtil.getValue(key, defaultValue);
             }
-            String value = propertiesDao.getValue();
-            return value;
+            return propertiesDao.getValue();
         } catch (Exception e) {
             LogUtil.error("PropertiesServiceImpl_getValue_e31", e, key, defaultValue);
             return "";

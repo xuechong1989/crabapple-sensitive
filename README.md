@@ -86,7 +86,7 @@ db.password=change-me
 server.port=8081
 ```
 
-`application.properties` 只负责数据库、日志、缓存、短信、安全过滤等基础配置；**`auth_admin_key`、SM2 密钥、词库导入路径等业务参数存放在数据库 `t_properties` 中，不是 application.properties。**
+`application.properties` 负责数据库、日志、缓存、短信、安全过滤等基础配置；`auth_admin_key`、SM2 密钥、词库导入路径等业务参数默认从数据库 `t_properties` 读取，`t_properties` 没有对应记录时会回退到 `application.properties`。建议把这些业务参数放在 `t_properties`，便于运行期修改和审计。
 
 ### 4. 写入 `t_properties` 初始参数
 
@@ -224,6 +224,8 @@ curl -b cookies.txt -X POST http://127.0.0.1:8081/api/crabapple/sensitive/sensit
 请求/响应统一使用 `S2cDto` 包装。
 
 ## 配置说明
+
+> 配置读取顺序：`t_properties` 中 `alias_` 命中且值非空时优先；没有记录或值为空时回退到 `application.properties`。管理员口令、SM2 密钥、词库导入路径建议放 `t_properties`。
 
 `application.properties` 中的主要项：
 

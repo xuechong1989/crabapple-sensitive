@@ -47,10 +47,6 @@ public class AppFilter extends SsmFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            if(true){
-                filterChain.doFilter(request, response);
-                return;
-            }
             //校验用户是否登录
             UserDao currentUser = ContextUtil.getCurrentUser();
             if (currentUser == null) {

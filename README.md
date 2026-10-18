@@ -1,4 +1,8 @@
+<p align="center"><img src="assets/logo-128.png" width="96" height="96" alt="Crabapple Sensitive" /></p>
+
 # Crabapple Sensitive（海棠中文敏感词服务）
+
+> 品牌色：海棠红 `#B3123B` · 海棠粉 `#E63B5F` · 叶绿 `#4F9D69`
 
 基于 [crabapple-commons](https://github.com/xuechong1989/crabapple-commons) 构建的**中文敏感词检测与词库管理服务**，面向中文评论、弹幕、文档、客服话术等内容的关键词过滤场景。
 

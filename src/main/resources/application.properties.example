@@ -6,8 +6,8 @@
 #
 # 首次部署必须自行填写：
 #   1. 数据库：db.url / db.username / db.password
-#   2. 管理员口令：auth_admin_key（留空则禁用 /auth/login）
-#   3. SM2 密钥对：auth_sm2_publickey / auth_sm2_privatekey
+#   2. 管理员口令：在 t_properties 写入 auth_admin_key（留空则禁用 /auth/login）
+#   3. SM2 密钥对：在 t_properties 写入 auth_sm2_publickey / auth_sm2_privatekey
 #      使用 Sm2Util.generateKeyMap() 或任意标准 SM2 工具生成，私钥只保存在部署环境
 #   4. 短信（可选）：sms_tencent_enable=yes，并填写 sms_tencent_secretid /
 #      sms_tencent_secretkey / sms_tencent_appid / sms_tencent_templateid / sms_tencent_sign
@@ -79,17 +79,8 @@ security_tc_s2c_sm2_publickey=
 security_tc_s2c_sm2_privatekey=
 security_tc_s2c_apiwhitelist=/api/crabapple/sensitive/index/heart
 
-# ---------------------------- 客户端令牌 ------------------------------------
-# 管理员口令登录：留空则禁用 /auth/login
-auth_admin_key=
-# 受信任客户端节点标识与 IP（生成 accessToken 时使用）
-auth_client_id=default
-auth_client_ip=
-# SM2 密钥对：请使用国密工具自行生成，私钥只保存在部署环境中
-auth_sm2_publickey=
-auth_sm2_privatekey=
-# 历史 admin 账号映射后的用户编号
-auth_root_userno=root
+# 客户端令牌 / 管理员口令 / SM2 密钥 / 词库导入路径属于 t_properties 业务参数，
+# 不从本文件读取。初始化 SQL 见 README 的“写入 t_properties 初始参数”。
 
 # ---------------------------- 短信（腾讯云） --------------------------------
 sms_tencent_enable=no
@@ -106,5 +97,3 @@ sms_tencent_proxy_port=0
 # 短信验证码有效期（分钟）
 sm_codeTime_num=2
 
-# 敏感词批量导入文件（相对于启动目录）
-sensitive_word_import_path=./data/sensitive-words.txt

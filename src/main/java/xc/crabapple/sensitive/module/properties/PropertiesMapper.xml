@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xc.crabapple.sensitive.module.properties.PropertiesMapper">
+
+	<resultMap id="Properties" type="xc.crabapple.sensitive.common.domain.dao.PropertiesDao">
+		<id property="id" column="id_" jdbcType="BIGINT"/>
+		<result property="name" column="name_" jdbcType="VARCHAR"/>
+		<result property="alias" column="alias_" jdbcType="VARCHAR"/>
+		<result property="global" column="global_" jdbcType="VARCHAR"/>
+		<result property="encrypt" column="encrypt_" jdbcType="VARCHAR"/>
+		<result property="value" column="value_" jdbcType="VARCHAR"/>
+		<result property="category" column="category_" jdbcType="VARCHAR"/>
+		<result property="description" column="description_" jdbcType="VARCHAR"/>
+		<result property="createBy" column="create_by_" jdbcType="BIGINT"/>
+		<result property="createTime" column="create_time_" jdbcType="VARCHAR"/>
+		<result property="updateBy" column="update_by_" jdbcType="BIGINT"/>
+		<result property="updateTime" column="update_time_" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="selectSysProperties" resultMap="Properties">
+		SELECT * FROM t_properties WHERE alias_=#{alias}
+	</select>
+
+
+</mapper>

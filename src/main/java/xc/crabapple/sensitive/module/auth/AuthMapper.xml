@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xc.crabapple.sensitive.module.auth.AuthMapper">
+
+    <resultMap id="AccessTokenDao" type="xc.crabapple.sensitive.common.domain.dao.AccessTokenDao">
+        <id property="id" column="id_" jdbcType="BIGINT"/>
+        <result property="clientId" column="clientId_" jdbcType="VARCHAR"/>
+        <result property="clientIp" column="clientIp_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="create">
+        INSERT INTO t_auth (id_, clientId_, clientIp_)
+        VALUES (#{id}, #{clientId}, #{clientIp})
+    </insert>
+
+    <select id="selectAccessTokenClientId" resultMap="AccessTokenDao">
+        select * from t_auth where clientId_=#{clientId}
+    </select>
+
+    <select id="selectList" resultMap="AccessTokenDao">
+        select * from t_auth
+        <where>
+            <if test="clientId != null">
+                and clientId_=#{clientId}
+            </if>
+            <if test="clientIp != null">
+                and clientIp_=#{clientIp}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xc.crabapple.sensitive.module.log.LogMapper">
+
+    <resultMap id="LogDao" type="xc.crabapple.sensitive.common.domain.dao.LogDao">
+        <id property="id" column="id_" jdbcType="BIGINT"/>
+        <result property="module" column="module_" jdbcType="VARCHAR"/>
+        <result property="subModule" column="sub_module_" jdbcType="VARCHAR"/>
+        <result property="nikeName" column="nike_name_" jdbcType="VARCHAR"/>
+        <result property="userNo" column="user_no_" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile_" jdbcType="VARCHAR"/>
+        <result property="content" column="content_" jdbcType="VARCHAR"/>
+        <result property="action" column="action_" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip_" jdbcType="VARCHAR"/>
+        <result property="userAgent" column="user_agent_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time_" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by_" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="create">
+        INSERT INTO t_log
+        (id_, module_, sub_module_, nike_name_, user_no_, mobile_, content_, action_, ip_, user_agent_, create_time_, create_by_)
+        VALUES
+            (#{id}, #{module}, #{subModule}, #{nikeName}, #{userNo}, #{mobile}, #{content}, #{action}, #{ip}, #{userAgent}, #{createTime}, #{createBy})
+    </insert>
+
+    <select id="selectList" resultMap="LogDao">
+        select *
+        from t_log
+        <where>
+            <if test="module != null">
+                and module_  LIKE CONCAT('%', #{module},'%')
+            </if>
+            <if test="subModule != null">
+                and sub_module_ LIKE CONCAT('%', #{subModule},'%')
+            </if>
+            <if test="nikeName != null">
+                and nike_name_ LIKE CONCAT('%',#{nikeName},'%')
+            </if>
+            <if test="userNo != null">
+                and user_no_ LIKE CONCAT('%', #{userNo},'%')
+            </if>
+            <if test="mobile != null">
+                and mobile_ LIKE CONCAT('%', #{mobile},'%')
+            </if>
+            <if test="action != null">
+                and action_ LIKE CONCAT('%', #{action},'%')
+            </if>
+            <if test="ip != null">
+                and ip_ LIKE CONCAT('%', #{ip},'%')
+            </if>
+            <if test="startTime != null and startTime!='' and endTime!= null and endTime != ''">
+                and create_time_ between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

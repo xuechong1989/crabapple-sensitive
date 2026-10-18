@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xc.crabapple.sensitive.module.sensitiveWord.SensitiveWordMapper">
+
+	<resultMap id="SensitiveWord" type="xc.crabapple.sensitive.common.domain.dao.SensitiveWordDao">
+		<id property="id" column="id_" jdbcType="BIGINT"/>
+		<result property="keyword" column="keyword_" jdbcType="VARCHAR"/>
+		<result property="type" column="type_" jdbcType="VARCHAR"/>
+		<result property="desc" column="desc_" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<insert id="create">
+		INSERT INTO t_sensitive_word(id_,keyword_,type_,desc_)
+		VALUES(#{id},#{keyword},#{type},#{desc})
+	</insert>
+
+	<update id="update">
+		UPDATE t_sensitive_word
+		<set>
+			<if test="keyword != null">
+				keyword_=#{keyword},
+			</if>
+			<if test="type != null">
+				type_=#{type},
+			</if>
+			<if test="desc != null">
+				desc_=#{desc},
+			</if>
+		</set>
+		WHERE id_=#{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM t_sensitive_word
+		WHERE id_=#{id}
+	</delete>
+
+	<select id="selectList" resultMap="SensitiveWord">
+		SELECT *  FROM t_sensitive_word
+		<where>
+			<if test="keyword != null and keyword != ''">
+				AND keyword_ LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="type != null and type != ''">
+				AND type_ LIKE CONCAT('%',#{type},'%')
+			</if>
+			<if test="desc != null and desc != ''">
+				AND desc_=#{desc}
+			</if>
+			<if test="id != null ">
+				AND id_=#{id}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectKeywordList" resultType="java.lang.String">
+		SELECT keyword_ FROM t_sensitive_word
+	</select>
+
+	<select id="selectListByKeyword" resultMap="SensitiveWord">
+		SELECT * FROM t_sensitive_word
+		<where>
+			<if test="keyword != null and keyword != ''">
+				keyword_=#{keyword}
+			</if>
+		</where>
+	</select>
+
+    <select id="selectById" resultMap="SensitiveWord">
+		SELECT * FROM t_sensitive_word WHERE id_=#{id}
+	</select>
+
+
+</mapper>

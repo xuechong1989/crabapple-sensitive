@@ -1,0 +1,110 @@
+# ============================================================================
+# Crabapple Sensitive - 配置示例
+# 复制为 src/main/resources/application.properties 后按实际环境修改。
+# 本文件只包含占位值，不包含任何真实密钥、口令或内部地址。
+# ============================================================================
+#
+# 首次部署必须自行填写：
+#   1. 数据库：db.url / db.username / db.password
+#   2. 管理员口令：auth_admin_key（留空则禁用 /auth/login）
+#   3. SM2 密钥对：auth_sm2_publickey / auth_sm2_privatekey
+#      使用 Sm2Util.generateKeyMap() 或任意标准 SM2 工具生成，私钥只保存在部署环境
+#   4. 短信（可选）：sms_tencent_enable=yes，并填写 sms_tencent_secretid /
+#      sms_tencent_secretkey / sms_tencent_appid / sms_tencent_templateid / sms_tencent_sign
+#   5. Redis（可选）：cache_redis_enable=yes，并填写 cache_redis_password /
+#      cache_redis_cipher_key
+#   6. 传参加密（可选）：security_tc_enbale=yes，并填写 security_tc_* 密钥
+#
+# 填写后的 application.properties 已被 .gitignore 忽略，请勿强制提交。
+# ============================================================================
+
+server.port=8081
+server.env.name=dev
+
+# ---------------------------- 数据库 ---------------------------------------
+# db.type 支持：mysql / oracle / sqlserver / db2 / dm / kingbase
+db.type=mysql
+db.url=jdbc:mysql://127.0.0.1:3306/crabapple_sensitive?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+db.username=change-me
+db.password=
+db.xml.url=com/cdk/sensitive/module/**/*.xml
+db.package=com.cdk.sensitive.module
+
+# ---------------------------- 日志 -----------------------------------------
+log.type=logback
+log.level=info
+log.file.path=./logs
+log.file.maxHistory=30
+log.file.maxFileSize=100MB
+
+# ---------------------------- 缓存 -----------------------------------------
+cache_local_clear_interval=600
+cache_redis_enable=no
+cache_redis_serverid=crabapple-sensitive
+cache_redis_model=singleton
+cache_redis_host=127.0.0.1:6379
+cache_redis_password=
+cache_redis_reconnect_maxcount=3
+cache_redis_cipher_type=sm4
+cache_redis_cipher_key=
+
+# ---------------------------- 安全 -----------------------------------------
+security_root_api=/api/crabapple/sensitive
+security_ipapi_enable=no
+security_ipapi_value=
+security_apiparam_enable=no
+security_apiparam_value=
+security_crossdomain_value=http://localhost:8081
+security_sameorigin_enable=no
+security_sameorigin_value=
+security_xss_enable=no
+security_xss_apiwhitelist=
+security_csrf_enable=no
+security_csrf_token_length=128
+security_csrf_token_submerge_key=
+security_csrf_token_param_name=csrf_token
+security_csrf_firstapi=/api/crabapple/sensitive/index/main
+security_limiter_enable=yes
+security_limiter_clientid_rule=*#*#10#20#30
+security_limiter_clientip_rule=
+security_uploader_webshell_enable=yes
+security_uploader_webshell_paramname=targetScope
+security_tc_enbale=no
+security_tc_c2s_submergekey=
+security_tc_c2s_sm2_publickey=
+security_tc_c2s_sm2_privatekey=
+security_tc_c2s_apiwhitelist=
+security_tc_s2c_submergekey=
+security_tc_s2c_sm2_publickey=
+security_tc_s2c_sm2_privatekey=
+security_tc_s2c_apiwhitelist=/api/crabapple/sensitive/index/heart
+
+# ---------------------------- 客户端令牌 ------------------------------------
+# 管理员口令登录：留空则禁用 /auth/login
+auth_admin_key=
+# 受信任客户端节点标识与 IP（生成 accessToken 时使用）
+auth_client_id=default
+auth_client_ip=
+# SM2 密钥对：请使用国密工具自行生成，私钥只保存在部署环境中
+auth_sm2_publickey=
+auth_sm2_privatekey=
+# 历史 admin 账号映射后的用户编号
+auth_root_userno=root
+
+# ---------------------------- 短信（腾讯云） --------------------------------
+sms_tencent_enable=no
+sms_tencent_secretid=
+sms_tencent_secretkey=
+sms_tencent_appid=
+sms_tencent_templateid=
+sms_tencent_sign=
+sms_tencent_proxy_enable=no
+sms_tencent_proxy_protocol=http://
+sms_tencent_proxy_ip=
+sms_tencent_proxy_port=0
+
+# 短信验证码有效期（分钟）
+sm_codeTime_num=2
+
+# 敏感词批量导入文件（相对于启动目录）
+sensitive_word_import_path=./data/sensitive-words.txt
